@@ -15,7 +15,7 @@ import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
-    class User {
+    static class User {
         String name = "";
         String description = "";
         Integer id = 0;
@@ -37,24 +37,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        User initUser = new User(words[1],words[0] + " state", 0,true);
-
         Intent receivingIntent = getIntent();
-        Double intentMsg = receivingIntent.getDoubleExtra("randomNumber",0);
+        String intentName = receivingIntent.getStringExtra("name");
+        String intentDesc = receivingIntent.getStringExtra("desc");
+        Integer intentId = receivingIntent.getIntExtra("id", 0);
+        Boolean intentFollowed = receivingIntent.getBooleanExtra("followed",true);
+        User initUser = new User(intentName, intentDesc, intentId, intentFollowed);
 
         TextView displayTxt = (TextView)findViewById(R.id.textView2);
-        Log.v(Tag, "Intent Msg: " + intentMsg);
-        displayTxt.setText("MAD " + intentMsg);
+        displayTxt.setText(intentName);
 
         Button followButton = (Button)findViewById(R.id.followButton);
-        followButton.setText(initUser.name);
+        if (initUser.followed == true){
+            followButton.setText(words[1]);
+        } else {
+            followButton.setText(words[0]);
+        }
 
         Button messageButton = (Button)findViewById(R.id.messageButton);
 
         followButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (initUser.followed == true ){
+                if (initUser.followed == true){
                     initUser.followed = false;
                     followButton.setText(words[0]);
                     Log.v(Tag, "Status change to Unfollow = " + initUser.followed);
