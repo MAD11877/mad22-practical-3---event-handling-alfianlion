@@ -51,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
 
         Button messageButton = (Button)findViewById(R.id.messageButton);
 
+        messageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MessageGroup.class);
+                startActivity(intent);
+            }
+        });
+
         followButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
